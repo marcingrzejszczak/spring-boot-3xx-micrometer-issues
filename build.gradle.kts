@@ -22,6 +22,7 @@ allprojects {
 	apply(plugin = "io.spring.dependency-management")
 
 	repositories {
+		mavenLocal()
 		mavenCentral()
 		maven("https://plugins.gradle.org/m2/")
 		maven("https://repo.spring.io/snapshot")
@@ -56,7 +57,8 @@ allprojects {
 
 		implementation("io.micrometer:micrometer-observation")
 		implementation("io.micrometer:context-propagation")
-		implementation("io.micrometer:micrometer-tracing-bridge-brave")
+		implementation("io.micrometer:micrometer-tracing:1.2.2-SNAPSHOT")
+		implementation("io.micrometer:micrometer-tracing-bridge-brave:1.2.2-SNAPSHOT")
 
 		implementation("org.springframework.boot:spring-boot-starter")
 		implementation("org.springframework.boot:spring-boot-starter-webflux")

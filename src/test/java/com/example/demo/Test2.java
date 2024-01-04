@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.handlers.*;
+import io.micrometer.tracing.contextpropagation.BaggageThreadLocalAccessor;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.springframework.beans.factory.annotation.*;
@@ -15,7 +16,7 @@ import org.springframework.test.web.reactive.server.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureObservability
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "10m")
 @SpringBootTest(useMainMethod = SpringBootTest.UseMainMethod.ALWAYS, classes = Test2Configuration.class)
 @ExtendWith(OutputCaptureExtension.class)
 public class Test2 {

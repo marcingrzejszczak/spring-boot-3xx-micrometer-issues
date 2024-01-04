@@ -14,3 +14,4 @@ management:
           - contextDataName
       remote-fields:
         - contextDataName
+logging.level.io.micrometer.tracing: TRACE

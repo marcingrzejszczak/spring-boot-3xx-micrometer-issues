@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.handlers.*;
+import com.example.demo.reactor.BaggageToPropagateUtils;
 import io.micrometer.tracing.*;
 import reactor.core.publisher.Mono;
 import org.springframework.web.server.ServerWebExchange;
@@ -26,10 +27,9 @@ public class ContextEnhancingWebFilter implements WebFilter {
                             if (currentSpan != null) {
                                 currentSpan.tag(data.getName(), data.getValue());
                             }
-                            BaggageInScope baggageInScope = tracer.createBaggageInScope(data.getName(), data.getValue());
-                            return mono.doFinally(signal -> {
-                                baggageInScope.close();
-                            });
+                          System.out.println("@@@@ CONTEXT WRITE [" + data.getName() + ", " + data.getValue() + "]");
+                              return mono.contextWrite(
+                                  BaggageToPropagateUtils.append(data.getName(), data.getValue()));
                         }))
                 .contextWrite(context -> setContextValue(contextData, context));
     }

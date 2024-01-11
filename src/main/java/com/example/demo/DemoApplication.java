@@ -3,7 +3,7 @@ package com.example.demo;
 import io.micrometer.context.ContextRegistry;
 import io.micrometer.observation.ObservationRegistry;
 import io.micrometer.tracing.Tracer;
-import io.micrometer.tracing.contextpropagation.BaggageThreadLocalAccessor;
+import io.micrometer.tracing.contextpropagation.ObservationAwareBaggageThreadLocalAccessor;
 import io.micrometer.tracing.contextpropagation.ObservationAwareSpanThreadLocalAccessor;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,7 @@ public class DemoApplication {
         Hooks.enableAutomaticContextPropagation();
         SpringApplication.run(DemoApplication.class, args);
     }
-
-
+    
     @Autowired
     Tracer tracer;
 
@@ -28,7 +27,7 @@ public class DemoApplication {
     @PostConstruct
     void setup() {
         ContextRegistry.getInstance().registerThreadLocalAccessor(new ObservationAwareSpanThreadLocalAccessor(observationRegistry, tracer));
-        ContextRegistry.getInstance().registerThreadLocalAccessor(new BaggageThreadLocalAccessor(tracer));
+        ContextRegistry.getInstance().registerThreadLocalAccessor(new ObservationAwareBaggageThreadLocalAccessor(observationRegistry, tracer));
     }
 }
 

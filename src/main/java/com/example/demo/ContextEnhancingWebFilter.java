@@ -1,8 +1,8 @@
 package com.example.demo;
 
 import com.example.demo.handlers.*;
-import com.example.demo.reactor.BaggageToPropagateUtils;
 import io.micrometer.tracing.*;
+import io.micrometer.tracing.contextpropagation.reactor.ReactorBaggage;
 import reactor.core.publisher.Mono;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -29,7 +29,7 @@ public class ContextEnhancingWebFilter implements WebFilter {
                             }
                           System.out.println("@@@@ CONTEXT WRITE [" + data.getName() + ", " + data.getValue() + "]");
                               return mono.contextWrite(
-                                  BaggageToPropagateUtils.append(data.getName(), data.getValue()));
+                                  ReactorBaggage.append(data.getName(), data.getValue()));
                         }))
                 .contextWrite(context -> setContextValue(contextData, context));
     }
